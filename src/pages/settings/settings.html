@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Opciones</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label>Cambiar de órgano</ion-label>
+      <ion-select [(ngModel)]="settings.room" #roomSelect (ionChange)="changeRoom(roomSelect.value)">
+        <ion-option value="ag">Asamblea general</ion-option>
+        <ion-option value="cs">Consejo de seguridad</ion-option>
+        <ion-option value="ecosoc">Ecosoc</ion-option>
+        <ion-option value="cdh">Consejo DDHH</ion-option>
+        <ion-option value="ttii">Sala de tratados</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-row>
+    <ion-col col-12>
+      <button ion-button color="primary" block (tap)="adminAcess()">Acceso Administrador</button>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="admin">
+    <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar paises"></ion-searchbar>
+    <ion-list col-12>
+      <ion-item-sliding *ngFor="let country of list.countryList | filter:searchTerm | async">
+        <ion-item>
+          <h2>{{country.name}}</h2>
+          <small *ngIf="!country.moving">Ubicaci&oacute;n: {{country.location | roomIdToString}}</small>
+          <small *ngIf="country.moving">Desde {{ country.location |roomIdToString }} a {{ country.goingTo | roomIdToString }} {{ country.time | amTimeAgo }}</small>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (tap)="deleteConfirm(country)">
+            <ion-icon name="trash"></ion-icon>
+            Borrar
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <ion-col col-8>
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="newCountry" placeholder="Agrega un país a la app">
+        </ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-2>
+      <button ion-button (tap)="addCountry()">Agregar</button>
+    </ion-col>
+    <!-- <ion-col col-12>
+      <button ion-button color="primary" block (tap)="toDefaultRoomConfirm()">Todos a Sala de Tratados</button>
+    </ion-col> -->
+  </ion-row>
+</ion-content>

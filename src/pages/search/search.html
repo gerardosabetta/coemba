@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Buscar</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar paises"></ion-searchbar>
+  <ion-row>
+    <ion-col col-12>
+      <h6 class="center"> Hay {{ (list.countryList | async)?.length }} embajadores en el MNU </h6>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-item *ngFor="let country of list.countryList | filter:searchTerm | async">
+      <h2>{{country.name}}</h2>
+      <small *ngIf="country.location == 'bathroom'"> {{ country.name }} está en el baño de {{ country.goingTo | roomIdToString }} </small>
+      <small *ngIf="!country.moving">Ubicaci&oacute;n: {{ country.location | roomIdToString }}</small>
+      <small *ngIf="country.moving && country.location !== 'bathroom'">Desde {{ country.location | roomIdToString }} a {{ country.goingTo | roomIdToString }} {{ country.time | amTimeAgo }}</small>
+    </ion-item>
+  </ion-list>
+</ion-content>

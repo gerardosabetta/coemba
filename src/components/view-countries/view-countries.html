@@ -1,0 +1,70 @@
+<ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar paises"></ion-searchbar>
+
+<ion-row *ngIf="(list.countryList | room:settings.room | async)?.length === 0">
+  <ion-col col-12>
+    <h6 class="title">No hay ningun embajador en este órgano</h6>
+  </ion-col>
+</ion-row>
+
+<ion-row *ngIf="(list.countryList | room:settings.room | async)?.length == 1">
+  <ion-col col-12>
+    <h6 class="title">Hay un embajador en este órgano</h6>
+  </ion-col>
+</ion-row>
+
+<ion-row *ngIf="(list.countryList | room:settings.room | async)?.length > 1">
+  <ion-col col-12>
+    <h6 class="title">Hay {{ (list.countryList | room:settings.room | async)?.length }} embajadores en este órgano</h6>
+  </ion-col>
+</ion-row>
+
+<ion-list>
+  <ion-item-sliding *ngFor="let country of list.countryList | room:settings.room | filter:searchTerm | async" (press)="openMenu(country)">
+    <ion-item>
+      <h2>{{country.name}}</h2>
+      <small>{{country.time | amTimeAgo}}</small>
+    </ion-item>
+    <ion-item-options side="right">
+      <button ion-button color="warning" (tap)="bathroom(country)">
+          <p class="bathroom">Baño</p>
+      </button>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+
+<ion-row *ngIf="(list.countryList | wanderer:settings.room | async)?.length === 0">
+  <ion-col col-12>
+    <h6 class="title">No estas esperando a nadie</h6>
+  </ion-col>
+</ion-row>
+
+<ion-row *ngIf="(list.countryList | wanderer:settings.room | async)?.length > 0">
+  <ion-col col-12>
+    <h6 class="title">Los siguientes embajadores se dirigen a tu órgano</h6>
+  </ion-col>
+</ion-row>
+
+<ion-card *ngFor="let country of list.countryList | wanderer:settings.room | async ">
+  <ion-card-content>
+    <ion-card-title>{{country.name}}</ion-card-title>
+    <p *ngIf="country.location == 'bathroom'"> {{country.name}} salió de tu órgano para ir al baño {{country.time | amTimeAgo}}</p>
+    <p *ngIf="!(country.location == 'bathroom')">{{country.name}} salió desde {{country.location | roomIdToString}} hacía tu órgano {{country.time | amTimeAgo}}</p>
+    <ion-row no-padding>
+      <ion-col class="center-aligned">
+        {{country.time | date:'shortTime' }}
+      </ion-col>
+      <ion-col>
+      </ion-col>
+      <ion-col text-right>
+        <button *ngIf="!(country.location == 'bathroom')" class="center-aligned" ion-button color="primary" icon-start (tap)="confirmEntrance(country)">
+          <ion-icon name='checkmark'></ion-icon>
+          Llegó!
+        </button>
+        <button *ngIf="country.location == 'bathroom'" class="center-aligned" ion-button color="primary" icon-start (tap)="confirmEntrance(country)">
+          <ion-icon name='checkmark'></ion-icon>
+          Volvió!
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

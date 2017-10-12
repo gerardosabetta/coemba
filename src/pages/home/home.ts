@@ -1,14 +1,13 @@
+import { CountryListProvider } from './../../providers/country-list/country-list';
+import { SettingsCommunicationService } from './../settings/settings.communication.service';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-
-  constructor(public navCtrl: NavController) {
-
-  }
-
+  constructor(
+    public settings: SettingsCommunicationService,
+    public list: CountryListProvider
+  ) { }
 }

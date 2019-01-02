@@ -1,5 +1,3 @@
-import { CountryListProvider } from './../../providers/country-list/country-list';
-import { FirebaseListObservable } from 'angularfire2/database';
 import { FirebaseServiceProvider } from './../../providers/firebase-service/firebase-service';
 import { SettingsCommunicationService } from './settings.communication.service';
 import { Component } from '@angular/core';
@@ -19,8 +17,7 @@ export class SettingsPage {
     public settings: SettingsCommunicationService,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    private firebaseService: FirebaseServiceProvider,
-    private list: CountryListProvider
+    private firebaseService: FirebaseServiceProvider
   ) { }
 
   ionViewDidLoad() {
@@ -81,8 +78,8 @@ export class SettingsPage {
     if(this.newCountry.length < 3) {
       this.throwError()
     } else {
-      this.firebaseService.addCountry({ 
-        name: this.newCountry, 
+      this.firebaseService.addCountry({
+        name: this.newCountry,
         location: 'ttii',
         moving: false,
         goingTo: null,

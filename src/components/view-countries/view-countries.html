@@ -48,7 +48,7 @@
   <ion-card-content>
     <ion-card-title>{{country.name}}</ion-card-title>
     <p *ngIf="country.location == 'bathroom'"> {{country.name}} salió de tu órgano para ir al baño {{country.time | amTimeAgo}}</p>
-    <p *ngIf="!(country.location == 'bathroom')">{{country.name}} salió desde {{country.location | roomIdToString}} hacía tu órgano {{country.time | amTimeAgo}}</p>
+    <p *ngIf="!(country.location == 'bathroom')">{{country.name}} salió desde {{country.location | roomIdToString}} hacia tu órgano {{country.time | amTimeAgo}}</p>
     <ion-row no-padding>
       <ion-col class="center-aligned">
         {{country.time | date:'shortTime' }}

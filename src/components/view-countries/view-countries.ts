@@ -1,6 +1,5 @@
 import { CountryListProvider } from './../../providers/country-list/country-list';
 import { SettingsCommunicationService } from './../../pages/settings/settings.communication.service';
-import { FirebaseListObservable } from 'angularfire2/database';
 import { FirebaseServiceProvider } from './../../providers/firebase-service/firebase-service';
 import { Component } from '@angular/core';
 import { Platform, ActionSheetController, AlertController } from 'ionic-angular';
@@ -19,7 +18,7 @@ export class ViewCountriesComponent {
     private platform: Platform,
     private firebaseService: FirebaseServiceProvider,
     private settings: SettingsCommunicationService,
-    private list: CountryListProvider
+    public list: CountryListProvider
   ) { }
   ngOnChanges() {
     console.log(this.settings.room);
@@ -62,6 +61,20 @@ export class ViewCountriesComponent {
           icon: !this.platform.is('ios') ? null : null,
           handler: () => {
             this.settings.room !== "cs" ? this.firebaseService.moveCountry(country, "cs") : this.errorSelf();
+          }
+        },
+        {
+          text: 'Onu Mujeres',
+          icon: !this.platform.is('ios') ? null : null,
+          handler: () => {
+            this.settings.room !== "onum" ? this.firebaseService.moveCountry(country, "onum") : this.errorSelf();
+          }
+        },
+        {
+          text: 'Consejo de Guerra',
+          icon: !this.platform.is('ios') ? null : null,
+          handler: () => {
+            this.settings.room !== "guerra" ? this.firebaseService.moveCountry(country, "guerra") : this.errorSelf();
           }
         },
         {
